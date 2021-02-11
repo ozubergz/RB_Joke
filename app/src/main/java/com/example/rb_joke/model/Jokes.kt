@@ -5,8 +5,8 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Categories(
+data class Jokes(
     val error: Boolean?,
-    val categories: List<String>,
-    val timestamp: Long?
+    val amount: Int?,
+    val jokes: List<Joke>
 )
