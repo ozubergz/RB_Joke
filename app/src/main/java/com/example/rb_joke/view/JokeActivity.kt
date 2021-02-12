@@ -2,6 +2,7 @@ package com.example.rb_joke.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rb_joke.databinding.ActivityJokeBinding
 import com.example.rb_joke.model.Joke
@@ -23,7 +24,17 @@ class JokeActivity : AppCompatActivity() {
         var obj = joke?.let { Json.decodeFromString<Joke>(it) }
         obj = obj as Joke
 
+        binding.tvCategoryName.text = obj.category
+        binding.tvSafe.text = "safe: ${obj.safe}"
 
+        if(obj.type == "single") {
+            binding.tvSetUp.text = "Joke: ${obj.joke}"
+            binding.tvDelivery.visibility = View.GONE
+        } else {
+            binding.tvSetUp.text = "Setup: ${obj.setup}"
+            binding.tvDelivery.text = "Delivery: ${obj.delivery}"
+            binding.tvDelivery.visibility = View.VISIBLE
+        }
 
         Log.d("Joke Activity", obj.toString())
     }

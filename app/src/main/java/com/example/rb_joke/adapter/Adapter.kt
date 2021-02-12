@@ -1,6 +1,5 @@
 package com.example.rb_joke.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rb_joke.databinding.CategoryItemBinding
 import com.example.rb_joke.databinding.JokeItemBinding
 import com.example.rb_joke.model.Joke
+
 
 class Adapter(private var dataSet: List<Any>, private var listener: ClickListener) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -21,9 +21,12 @@ class Adapter(private var dataSet: List<Any>, private var listener: ClickListene
 
     inner class CategoryViewHolder(private val binding: CategoryItemBinding, private val listener: ClickListener) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            val item = dataSet[position]
-            binding.tvCategoryName.text = item as String
+            val item = dataSet[position] as String
+            binding.tvCategoryName.text = item
+
             binding.root.setOnClickListener {
+                // binding.tvCategoryName.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.teal_200))
+
                 listener.itemClick(position)
             }
         }
@@ -61,7 +64,6 @@ class Adapter(private var dataSet: List<Any>, private var listener: ClickListene
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder  {
-        Log.d("view type", viewType.toString())
         return when(viewType) {
             TYPE_CATEGORY -> {
                 val view = CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)

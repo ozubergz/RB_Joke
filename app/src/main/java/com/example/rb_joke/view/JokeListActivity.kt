@@ -2,8 +2,11 @@ package com.example.rb_joke.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rb_joke.adapter.Adapter
 import com.example.rb_joke.adapter.ClickListener
@@ -27,9 +30,8 @@ class JokeListActivity : AppCompatActivity(), ClickListener {
         binding = ActivityMainJokeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val category: String? = intent.getStringExtra(Constants.CATEGORY_KEY)
-
-        if (category != null) {
+        val category = intent.getStringExtra(Constants.CATEGORY_KEY)
+        if (category != null && category.isNotEmpty()) {
             viewModel.fetchAPIJokes(category, 10)
         }
 
@@ -40,8 +42,26 @@ class JokeListActivity : AppCompatActivity(), ClickListener {
             val adapter = Adapter(it.jokes, this)
             adapter.setViewType(1)
 
-            binding.rvJokeList.adapter = adapter
-            binding.rvJokeList.layoutManager = LinearLayoutManager(this)
+            binding.rvJokeLinearList.adapter = adapter
+            binding.rvJokeGridList.adapter = adapter
+        }
+
+        binding.rvJokeLinearList.layoutManager = LinearLayoutManager(this)
+        binding.rvJokeGridList.layoutManager = GridLayoutManager(this, 3)
+        binding.rvJokeGridList.visibility = View.GONE
+
+        toggleLayout()
+    }
+
+    fun toggleLayout() {
+        binding.btnLinear.setOnClickListener {
+            binding.rvJokeLinearList.visibility = View.VISIBLE
+            binding.rvJokeGridList.visibility = View.GONE
+        }
+
+        binding.btnGrid.setOnClickListener {
+            binding.rvJokeGridList.visibility = View.VISIBLE
+            binding.rvJokeLinearList.visibility = View.GONE
         }
     }
 
@@ -50,5 +70,6 @@ class JokeListActivity : AppCompatActivity(), ClickListener {
         val intent = Intent(this, JokeActivity::class.java)
         intent.putExtra(Constants.JOKE_KEY, json)
         startActivity(intent)
+
     }
 }

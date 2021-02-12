@@ -7,10 +7,45 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
+    <Button
+        android:id="@+id/btn_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Linear"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_grid"
+        app:layout_constraintBottom_toTopOf="@+id/rv_category_linear_list"/>
+
+    <Button
+        android:id="@+id/btn_grid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grid"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/rv_category_linear_list"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_category_list"
+        android:id="@+id/rv_category_linear_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/category_item"/>
+        android:layout_height="0dp"
+        tools:listitem="@layout/category_item"
+        app:layout_constraintTop_toBottomOf="@+id/btn_linear"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_category_grid_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        tools:listitem="@layout/category_item"
+        app:layout_constraintTop_toBottomOf="@+id/btn_linear"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
