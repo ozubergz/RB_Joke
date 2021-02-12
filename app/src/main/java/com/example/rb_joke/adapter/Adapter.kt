@@ -2,7 +2,9 @@ package com.example.rb_joke.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rb_joke.databinding.CategoryItemBinding
 import com.example.rb_joke.databinding.JokeItemBinding
@@ -30,8 +32,30 @@ class Adapter(private var dataSet: List<Any>, private var listener: ClickListene
     inner class JokeViewHolder(private val binding: JokeItemBinding, private val listener: ClickListener) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             val item: Joke = dataSet[position] as Joke
+
+            binding.tvDelivery.visibility = View.GONE
+
             if(item.type == "single") {
-                binding.tvJoke.text = item.joke
+                binding.tvSetUp.text = item.joke
+
+                binding.tvSetUp.setOnClickListener {
+                    listener.itemClick(position)
+                }
+
+            } else {
+                binding.tvSetUp.text = item.setup
+                binding.tvDelivery.text = item.delivery
+
+                binding.tvSetUp.setOnClickListener {
+                    listener.itemClick(position)
+                }
+
+                binding.tvSetUp.setOnLongClickListener {
+                    binding.tvDelivery.visibility = View.VISIBLE
+                    Toast.makeText(binding.root.context, "Long click detected", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
             }
         }
     }

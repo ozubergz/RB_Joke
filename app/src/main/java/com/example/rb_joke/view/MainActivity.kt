@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), ClickListener {
     }
 
     override fun itemClick(position: Int) {
-        val intent = Intent(this, JokeActivity::class.java)
+        val intent = Intent(this, JokeListActivity::class.java)
         intent.putExtra(Constants.CATEGORY_KEY, categories[position])
         startActivity(intent)
     }
