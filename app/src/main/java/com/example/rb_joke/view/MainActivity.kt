@@ -3,7 +3,6 @@ package com.example.rb_joke.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -14,7 +13,6 @@ import com.example.rb_joke.adapter.ClickListener
 import com.example.rb_joke.databinding.ActivityMainBinding
 import com.example.rb_joke.util.Constants
 import com.example.rb_joke.viewmodel.ViewModel
-import okio.utf8Size
 
 class MainActivity : AppCompatActivity(), ClickListener {
 
@@ -31,6 +29,12 @@ class MainActivity : AppCompatActivity(), ClickListener {
 
         viewModel.fetchAPICategories()
 
+        initObservers()
+        initListeners()
+    }
+
+    private fun initObservers() {
+
         viewModel.categories.observe(this) {
 
             categories = it.categories
@@ -45,8 +49,6 @@ class MainActivity : AppCompatActivity(), ClickListener {
         binding.rvCategoryLinearList.layoutManager = LinearLayoutManager(this)
         binding.rvCategoryGridList.layoutManager = GridLayoutManager(this, 3)
         binding.rvCategoryGridList.visibility = View.GONE
-
-        initListeners()
     }
 
     private fun initListeners() {
@@ -60,14 +62,13 @@ class MainActivity : AppCompatActivity(), ClickListener {
             binding.rvCategoryLinearList.visibility = View.GONE
         }
 
-
-
         binding.btnSubmit.setOnClickListener {
 
             var stringOfCategories = ""
             map.forEach { (k, v) ->
                 stringOfCategories += "${v},"
             }
+
             if(stringOfCategories.isNotEmpty()) {
                 val intent = Intent(this, JokeListActivity::class.java)
                 intent.putExtra(Constants.CATEGORY_KEY, stringOfCategories.dropLast(1))
@@ -75,7 +76,6 @@ class MainActivity : AppCompatActivity(), ClickListener {
             } else {
                 Toast.makeText(this, "Make sure to choose categoreis", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 

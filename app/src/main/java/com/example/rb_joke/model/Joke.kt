@@ -4,7 +4,7 @@ package com.example.rb_joke.model
 import com.squareup.moshi.JsonClass
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Serializable // change this to Parcelize
 @JsonClass(generateAdapter = true)
 data class Joke(
     val category: String?,

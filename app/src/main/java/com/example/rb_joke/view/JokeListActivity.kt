@@ -3,11 +3,15 @@ package com.example.rb_joke.view
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NavUtils
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.rb_joke.R
 import com.example.rb_joke.adapter.Adapter
 import com.example.rb_joke.adapter.ClickListener
 import com.example.rb_joke.databinding.ActivityMainJokeBinding
@@ -30,16 +34,36 @@ class JokeListActivity : AppCompatActivity(), ClickListener {
         binding = ActivityMainJokeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val category = intent.getStringExtra(Constants.CATEGORY_KEY)
-        if (category != null && category.isNotEmpty()) {
-            viewModel.fetchAPIJokes(category, 10)
+        val categories = intent.getStringExtra(Constants.CATEGORY_KEY)
+        if (categories != null) {
+            viewModel.fetchAPIJokes(categories, 10)
         }
 
+//        val callback = this.onBackPressedDispatcher.addCallback(this) {
+//            onBackPressed()
+//        }
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
+
+        initView()
+        toggleLayout()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        Log.d("CDA", "clicked")
+        finish()
+        return super.onSupportNavigateUp()
+    }
+
+
+    private fun initView() {
         viewModel.jokes.observe(this) {
-
             jokes = it.jokes
+//            Log.d("JokeListActivity", jokes.toString())
 
-            val adapter = Adapter(it.jokes, this)
+            val adapter = Adapter(jokes, this)
             adapter.setViewType(1)
 
             binding.rvJokeLinearList.adapter = adapter
@@ -49,11 +73,9 @@ class JokeListActivity : AppCompatActivity(), ClickListener {
         binding.rvJokeLinearList.layoutManager = LinearLayoutManager(this)
         binding.rvJokeGridList.layoutManager = GridLayoutManager(this, 3)
         binding.rvJokeGridList.visibility = View.GONE
-
-        toggleLayout()
     }
 
-    fun toggleLayout() {
+    private fun toggleLayout() {
         binding.btnLinear.setOnClickListener {
             binding.rvJokeLinearList.visibility = View.VISIBLE
             binding.rvJokeGridList.visibility = View.GONE
@@ -70,6 +92,5 @@ class JokeListActivity : AppCompatActivity(), ClickListener {
         val intent = Intent(this, JokeActivity::class.java)
         intent.putExtra(Constants.JOKE_KEY, json)
         startActivity(intent)
-
     }
 }

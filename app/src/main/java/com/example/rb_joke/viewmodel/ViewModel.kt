@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.rb_joke.model.Categories
+import com.example.rb_joke.model.Joke
 import com.example.rb_joke.model.Jokes
 import com.example.rb_joke.repo.Repo
 import retrofit2.Call
@@ -45,7 +46,5 @@ class ViewModel : ViewModel() {
             }
         })
     }
-
-
 
 }

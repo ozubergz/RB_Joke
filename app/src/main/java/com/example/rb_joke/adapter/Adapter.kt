@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.rb_joke.R
 import com.example.rb_joke.databinding.CategoryItemBinding
 import com.example.rb_joke.databinding.JokeItemBinding
 import com.example.rb_joke.model.Joke
@@ -22,11 +24,17 @@ class Adapter(private var dataSet: List<Any>, private var listener: ClickListene
     inner class CategoryViewHolder(private val binding: CategoryItemBinding, private val listener: ClickListener) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
             val item = dataSet[position] as String
+            var stateChanged = false
+
             binding.tvCategoryName.text = item
 
             binding.root.setOnClickListener {
-                // binding.tvCategoryName.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.teal_200))
-
+                if(stateChanged) {
+                    binding.tvCategoryName.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.white))
+                } else {
+                    binding.tvCategoryName.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.teal_200))
+                }
+                stateChanged = !stateChanged
                 listener.itemClick(position)
             }
         }
