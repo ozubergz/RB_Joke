@@ -13,8 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RB_Joke">
         <activity android:name=".view.JokeActivity"/>
-        <activity android:name=".view.JokeListActivity"
-            android:parentActivityName=".view.MainActivity"/>
+        <activity android:name=".view.JokeListActivity"/>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
